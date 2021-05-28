@@ -22,7 +22,7 @@ class SNMP():
         self.msgPrivacyParameter=[]
         self.contextEngineID = []
         self.contextName = []
-        self.msgDataRequestID = [1]
+        self.msgDataRequestID = 1
         
     def set_network_interface(self, interface):
         # set network interface
@@ -97,6 +97,7 @@ class SNMP():
         protocolType = [0x81,0x4c]
         packet = self.dst+self.src+protocolType+payload
         raw = self.pack(packet)
+        self.msgDataRequestID += 1
         return self.snmp.send(raw)
 
     def pack(self,hex_list):
@@ -126,7 +127,7 @@ class SNMP():
                                            +self.pack_snmphead(0x04,msgFlags)\
                                            +self.pack_snmphead(0x02,msgSecurityModel)))
         # snmp security parameter
-        snmp_security = self.pack_snmphead(0x04,(self.pack_snmphead(0x30,(self.pack_snmphead(0x04,self.msgAuthEngineID)\
+        snmp_security = self.pack_snmphead(0x04,(self.pack_snmphead(0x30,(self.pack_snmphead(0x04,self.int_to_list(self.msgAuthEngineID))\
                                                                 +self.pack_snmphead(0x02,self.msgAuthEngineBoots)\
                                                                 +self.pack_snmphead(0x02,self.msgAuthEngineTime)\
                                                                 +self.pack_snmphead(0x04,self.msgUserName)\
