@@ -6,7 +6,7 @@ Not support encryption yet
 With the code can achieve basic functions, get and set
 
 Below is the instruction about how to use the class.
-```
+``` python3
 # First import class and create instance
 import SNMPpacket
 instance = SNMP()
